@@ -1,15 +1,57 @@
 <!DOCTYPE html>
 <html lang="ml">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Test Embed</title>
-  </head>
-  <body style="margin:0;">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>പ്രേതത്തെ കണ്ടാൽ എന്ത് ചെയ്യണം?</title>
+  <link rel="preconnect" href="https://view.genially.com" />
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: #000;
+    }
+    #loader {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      z-index: 10;
+    }
+    .genially-container {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      padding-bottom: 177.78%;
+      height: 0;
+    }
+    iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="loader">🔄 ലോഡ് ചെയ്യുന്നു...</div>
+  <div class="genially-container">
     <iframe
       src="https://view.genially.com/683724c4b2fa9ac671e3ece4"
-      width="100%" height="100%" style="border:none; height:100vh;"
-      allowfullscreen>
+      title="പ്രേതത്തെ കണ്ടാൽ എന്ത് ചെയ്യണം?"
+      allowscriptaccess="always"
+      allowfullscreen="true"
+      scrolling="yes"
+      onload="document.getElementById('loader').style.display='none'; this.style.display='block';">
     </iframe>
-  </body>
+  </div>
+</body>
 </html>
