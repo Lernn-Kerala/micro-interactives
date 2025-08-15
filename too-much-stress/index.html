@@ -44,7 +44,13 @@
 <body>
   <div id="loader">🔄 ലോഡ് ചെയ്യുന്നു...</div>
   <div class="genially-container">
-    <iframe title="Too Much Stress" frameborder="0" width="1080" height="1920" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="https://view.genially.com/68766d19bf8109d78936253f" type="text/html" allowscriptaccess="always" allowfullscreen="true" scrolling="yes" allownetworking="all"></iframe>
-  </div>
+    <iframe>
+      src="https://view.genially.com/68766d19bf8109d78936253f"
+      title="Too Much Stress"
+      allowscriptaccess="always"
+      allowfullscreen="true"
+      scrolling="yes"
+      onload="document.getElementById('loader').style.display='none'; this.style.display='block';"</iframe>
+    </div>
 </body>
 </html>
