@@ -2,55 +2,93 @@
 <html lang="ml">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Too Much Stress</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Too Much Stress — 16:9 Letterboxed Embed</title>
   <link rel="preconnect" href="https://view.genially.com" />
   <style>
-    body, html {
+    /* Page baseline */
+    html, body {
+      height: 100%;
       margin: 0;
-      padding: 0;
-      height: 100%;
-      background-color: #000;
-    }
-    #loader {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: #000;
+      background: #000; /* Letterbox areas */
+      overflow: hidden; /* Avoid stray scrollbars on desktop */
       color: #fff;
+      font: 16px system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
+    }
+
+    /* Full-viewport stage that centers the 16:9 player */
+    .stage {
+      position: fixed;
+      inset: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.3rem;
-      z-index: 10;
+      background: #000; /* bars at sides/top as needed */
     }
-    .genially-container {
-      width: 100%;
-      height: 100%;
+
+    /* 16:9 responsive player that fits within viewport without covering it */
+    .player {
       position: relative;
-      padding-bottom: 177.78%;
-      height: 0;
+      aspect-ratio: 16 / 9;
+      width: min(100vw, calc(100vh * (16 / 9)));
+      max-width: 100vw;
+      max-height: 100vh;
+      background: #000;
+      border: none;
+      box-shadow: 0 0 0 0 #000; /* keep edges clean */
     }
+
+    /* Fallback for very old browsers that don't support aspect-ratio */
+    @supports not (aspect-ratio: 1 / 1) {
+      .player {
+        width: 100vw;
+        height: 100vh;
+      }
+      .player::before {
+        content: "";
+        display: block;
+        padding-top: 56.25%; /* 9 / 16 = 0.5625 */
+      }
+      .player > iframe {
+        position: absolute;
+        inset: 0;
+      }
+    }
+
     iframe {
-      position: absolute;
-      top: 0; left: 0;
+      display: block; /* remove inline gap */
       width: 100%;
       height: 100%;
-      border: none;
-      display: none;
+      border: 0;
+    }
+
+    /* Simple loader overlay */
+    .loader {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      background: #000;
+      z-index: 10;
+      font-size: 1.1rem;
+      letter-spacing: 0.2px;
     }
   </style>
 </head>
 <body>
-  <div id="loader">🔄 ലോഡ് ചെയ്യുന്നു...</div>
-  <div class="genially-container">
-    <iframe
-      src="https://view.genially.com/68766d19bf8109d78936253f"
-      title="Too Much Stress"
-      allowscriptaccess="always"
-      allowfullscreen="true"
-      scrolling="yes"
-      onload="document.getElementById('loader').style.display='none'; this.style.display='block';"></iframe>
+  <div id="loader" class="loader">🔄 ലോഡ് ചെയ്യുന്നു...</div>
+
+  <main class="stage" role="main">
+    <div class="player" aria-label="Genially Presentation (16:9)">
+      <iframe
+        src="https://view.genially.com/68766d19bf8109d78936253f"
+        title="Too Much Stress"
+        allowscriptaccess="always"
+        allowfullscreen
+        scrolling="yes"
+        onload="(function(l){ if(l) l.style.display='none'; })(document.getElementById('loader'));"
+      ></iframe>
     </div>
+  </main>
 </body>
 </html>
