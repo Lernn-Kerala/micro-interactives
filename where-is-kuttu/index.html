@@ -1,65 +1,101 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ml">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Too Much Stress</title>
-  <link rel="preconnect" href="https://view.genially.com" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Too Much Stress — Responsive Embed</title>
+  <!-- Speed hint for Genially assets -->
+  <link rel="preconnect" href="https://view.genially.com" crossorigin>
   <style>
-    body, html {
+    /* Page reset & dark backdrop (letterboxing) */
+    html, body {
       margin: 0;
-      padding: 0;
-      height: 100%;
-      background-color: #000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    #loader {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%;
       height: 100%;
       background: #000;
       color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.3rem;
-      z-index: 10;
+      overflow: hidden; /* Prevent unwanted scrollbars on desktop */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
-    .genially-container {
-      width: 100%;
-      max-width: 1200px; /* keeps it neat on PC */
-      aspect-ratio: 16/9; /* responsive aspect ratio */
-      position: relative;
+
+    /* Full-viewport stage that centers the player; black edges act as bars */
+    .stage {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      background: #000; /* ensures side/top/bottom bars are black on any screen */
     }
-    /* fallback for browsers without aspect-ratio support */
-    .genially-container::before {
-      content: "";
-      display: block;
-      padding-top: 56.25%; /* 16:9 ratio */
-    }
-    .genially-container iframe {
+
+    /* Loader overlay */
+    .loader {
       position: absolute;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-      display: none;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font-size: 1rem;
+      background: #000;
+      z-index: 1;
+    }
+
+    /* The iframe is sized to the largest 16:9 rect that fits within the viewport
+       Uses dynamic viewport units to behave well on mobile browser chrome */
+    .player {
+      width: min(100vw, calc(100dvh * (16 / 9)));
+      height: min(calc(100vw * (9 / 16)), 100dvh);
+      border: 0;
+      display: none; /* shown after load */
+      background: #000; /* avoids white flash */
+    }
+
+    /* Optional: Small screens can scale text slightly for the loader */
+    @media (max-width: 360px) {
+      .loader { font-size: 0.95rem; }
     }
   </style>
 </head>
 <body>
-  <div id="loader">🔄 ലോഡ് ചെയ്യുന്നു...</div>
-  <div class="genially-container">
+  <div class="stage" aria-busy="true">
+    <div class="loader" id="loader" role="status" aria-live="polite">🔄 ലോഡ് ചെയ്യുന്നു…</div>
+
     <iframe
-      src="https://view.genially.com/68766d19bf8109d78936253f"
+      id="geniallyFrame"
+      class="player"
       title="Too Much Stress"
+      src="https://view.genially.com/68766d19bf8109d78936253f"
+      loading="eager"
       allowfullscreen
-      scrolling="yes"
-      onload="document.getElementById('loader').style.display='none'; this.style.display='block';">
+      allowscriptaccess="always"
+      referrerpolicy="no-referrer-when-downgrade"
+      sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-presentation">
     </iframe>
   </div>
+
+  <script>
+    // Show player once it signals load; keep things snappy & accessible
+    (function () {
+      var frame = document.getElementById('geniallyFrame');
+      var loader = document.getElementById('loader');
+
+      function showPlayer() {
+        if (loader) loader.style.display = 'none';
+        frame.style.display = 'block';
+        document.querySelector('.stage').setAttribute('aria-busy', 'false');
+      }
+
+      // Normal load
+      frame.addEventListener('load', showPlayer, { once: true });
+
+      // Fallback timeout in case onload is delayed by third-party scripts
+      setTimeout(function(){
+        if (frame.style.display !== 'block') showPlayer();
+      }, 3500);
+
+      // Defensive: avoid scroll restoration jumping on mobile
+      if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+      }
+    })();
+  </script>
 </body>
 </html>
