@@ -1,18 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ml">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Where is Kuttu?</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Too Much Stress</title>
+  <link rel="preconnect" href="https://view.genially.com" />
   <style>
     body, html {
       margin: 0;
       padding: 0;
       height: 100%;
       background-color: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
     #loader {
-      position: absolute;
+      position: fixed;
+      top: 0; left: 0;
       width: 100%;
       height: 100%;
       background: #000;
@@ -20,10 +25,24 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.5rem;
+      font-size: 1.3rem;
       z-index: 10;
     }
-    iframe {
+    .genially-container {
+      width: 100%;
+      max-width: 1200px; /* keeps it neat on PC */
+      aspect-ratio: 16/9; /* responsive aspect ratio */
+      position: relative;
+    }
+    /* fallback for browsers without aspect-ratio support */
+    .genially-container::before {
+      content: "";
+      display: block;
+      padding-top: 56.25%; /* 16:9 ratio */
+    }
+    .genially-container iframe {
+      position: absolute;
+      top: 0; left: 0;
       width: 100%;
       height: 100%;
       border: none;
@@ -32,7 +51,15 @@
   </style>
 </head>
 <body>
-  <div id="loader">🔄 Loading the experience...</div>
-  <iframe src="https://view.genially.com/68558399c72204f7fc5c4607" allowfullscreen onload="document.getElementById('loader').style.display='none'; this.style.display='block';"></iframe>
+  <div id="loader">🔄 ലോഡ് ചെയ്യുന്നു...</div>
+  <div class="genially-container">
+    <iframe
+      src="https://view.genially.com/68766d19bf8109d78936253f"
+      title="Too Much Stress"
+      allowfullscreen
+      scrolling="yes"
+      onload="document.getElementById('loader').style.display='none'; this.style.display='block';">
+    </iframe>
+  </div>
 </body>
 </html>
