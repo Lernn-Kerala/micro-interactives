@@ -85,7 +85,7 @@
       allowscriptaccess="always"
       allowfullscreen="true"
       scrolling="yes"
-      onload="document.getElementById('loader').style.display='none'; this.style.display='block';">
+      onload="(function(l){ if(l) l.style.display='none'; })(document.getElementById('loader'));"
     </iframe>
   </div>
     </main>
